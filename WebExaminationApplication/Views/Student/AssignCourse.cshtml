@@ -1,0 +1,32 @@
+﻿@model WebExaminationApplication.ViewModels.Student.CourseAssignViewModel
+
+@{
+    ViewData["Title"] = "Assign Course to Student";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center">📘 Assign Course</h2>
+
+    <form asp-action="AssignCourse" method="post">
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="form-group mb-3">
+            <label>Name:</label>
+            <input type="text" class="form-control" value="@Model.Name" disabled />
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="Courses">Select Course</label>
+            <select asp-for="CourseId" asp-items="Model.Courses" class="form-control"></select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">✅ Assign</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

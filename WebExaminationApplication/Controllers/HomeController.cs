@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebExaminationApplication.Models;
 
@@ -13,11 +14,12 @@ namespace WebExaminationApplication.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
-
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

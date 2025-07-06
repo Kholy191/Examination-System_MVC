@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Shared.Dtos.Student.StudentDto>
+
+@{
+    ViewData["Title"] = "Students List";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center">👨‍🎓 Registered Students</h2>
+
+    @if (Model.Any())
+    {
+        <table class="table table-hover table-bordered text-center">
+            <thead class="table-light">
+                <tr>
+                    <!-- Hidden ID column -->
+                    <th style="display: none">ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>User ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model)
+                {
+                    <tr>
+                        <td style="display: none">@student.Id</td> <!-- Hidden -->
+                        <td>@($"{student.FirstName} {student.LastName}")</td>
+                        <td>@student.Email</td>
+                        <td>@student.PhoneNumber</td>
+                        <td>
+                            <a href="/Student/AssignCourse/@student.Id" class="btn btn-sm btn-info">Assign to Course</a>
+                            <a href="/Student/StudentDetails/@student.Id" class="btn btn-sm btn-info">Details</a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            No students found.
+        </div>
+    }
+</div>

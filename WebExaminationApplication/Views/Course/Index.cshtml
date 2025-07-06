@@ -1,0 +1,48 @@
+﻿@using Shared.Dtos.Course
+@model IEnumerable<CourseDto>
+
+@{
+    ViewData["Title"] = "Courses List";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center">📚 Available Courses</h2>
+
+    @if (Model.Any())
+    {
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th style="display:none">ID</th> <!-- Hidden ID -->
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Credits</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model)
+                {
+                    <tr>
+                        <td>@course.Title</td>
+                        <td>@course.Description</td>
+                        <td>@course.Credits</td>
+                        <td>
+                            <a href="/Course/Edit/@course.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="/Course/Details/@course.Id" class="btn btn-sm btn-info">Details</a>
+                            <a href="/Course/Delete/@course.Id" class="btn btn-sm btn-danger">Delete</a>
+                            <a href="/Course/CoursewithStudents/@course.Id" class="btn btn-sm btn-primary mb-1">👥 View Students</a><br />
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            No courses available at the moment.
+        </div>
+    }
+</div>

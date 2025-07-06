@@ -15,7 +15,7 @@ namespace Domain.Entities
 
         #region Instructor Relationship
         [ForeignKey("Instructor")]
-        public int InstructorId { get; set; } // Foreign key for Instructor
+        public int? InstructorId { get; set; } // Foreign key for Instructor
         public Instructor Instructor { get; set; } // Assuming a course has one instructor
         #endregion
 

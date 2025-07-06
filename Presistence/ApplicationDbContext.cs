@@ -31,32 +31,43 @@ namespace Presistence
             base.OnModelCreating(builder);
 
             // Rename Identity tables
+            builder.Entity<ApplicationUser>().ToTable("Users");
+            builder.Entity<IdentityRole>().ToTable("Roles");
+            builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+            builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+            builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+            builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+            builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+
+            // علاقات Instructor و Student
             builder.Entity<ApplicationUser>(entity =>
             {
-                entity.ToTable("Users");
+                entity.HasOne(u => u.Instructor)
+                    .WithOne(i => i.User)
+                    .HasForeignKey<Instructor>(i => i.UserId);
 
-                entity.HasOne(entity => entity.Instructor)
-                    .WithOne(instructor => instructor.User)
-                    .HasForeignKey<Instructor>(instructor => instructor.UserId);
-
-                entity.HasOne(entity => entity.Student)
-                    .WithOne(student => student.User)
-                    .HasForeignKey<Student>(student => student.UserId);
+                entity.HasOne(u => u.Student)
+                    .WithOne(s => s.User)
+                    .HasForeignKey<Student>(s => s.UserId);
             });
 
-            // Composite key for StudentExam (Many-to-Many)
+            // علاقات StudentExam
             builder.Entity<StudentExam>(entity =>
             {
                 entity.HasKey(se => new { se.StudentId, se.ExamId });
+
                 entity.HasOne(se => se.Student)
                     .WithMany(s => s.StudentExams)
-                    .HasForeignKey(se => se.StudentId).OnDelete(DeleteBehavior.Restrict);
+                    .HasForeignKey(se => se.StudentId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(se => se.Exam)
                     .WithMany(e => e.StudentExams)
-                    .HasForeignKey(se => se.ExamId).OnDelete(DeleteBehavior.Restrict);
+                    .HasForeignKey(se => se.ExamId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
+            // Many-to-Many Student <-> Course
             builder.Entity<Student>(entity =>
             {
                 entity.HasMany(student => student.Courses)
@@ -81,8 +92,6 @@ namespace Presistence
                             j.ToTable("StudentCourses");
                         });
             });
-
         }
-
     }
 }

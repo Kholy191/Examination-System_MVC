@@ -10,12 +10,13 @@ namespace Domain.Entities
     {
         public string Text { get; set; }
         public string Answer { get; set; }
-        public List<string> Options { get; set; } = new List<string>();
         public int Marks { get; set; }
 
         #region Exam Relationship
         public int ExamId { get; set; } // Foreign key for Exam
         public Exam Exam { get; set; } // Assuming a question belongs to one exam
         #endregion
+        
+        public ICollection<AnswerOption> AnswerOptions { get; set; } = new HashSet<AnswerOption>();
     }
 }

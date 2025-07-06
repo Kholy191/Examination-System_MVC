@@ -22,6 +22,31 @@ namespace Presistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.AnswerOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("AnswerOption");
+                });
+
             modelBuilder.Entity("Domain.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -102,7 +127,7 @@ namespace Presistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("InstructorId")
+                    b.Property<int?>("InstructorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -111,8 +136,7 @@ namespace Presistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstructorId")
-                        .IsUnique();
+                    b.HasIndex("InstructorId");
 
                     b.ToTable("Courses");
                 });
@@ -198,10 +222,6 @@ namespace Presistence.Migrations
 
                     b.Property<int>("Marks")
                         .HasColumnType("int");
-
-                    b.Property<string>("Options")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -292,7 +312,7 @@ namespace Presistence.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -317,7 +337,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -342,7 +362,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -364,7 +384,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -379,7 +399,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -398,7 +418,7 @@ namespace Presistence.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("StudentCourses", b =>
@@ -416,13 +436,22 @@ namespace Presistence.Migrations
                     b.ToTable("StudentCourses", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.AnswerOption", b =>
+                {
+                    b.HasOne("Domain.Entities.Question", "Question")
+                        .WithMany("AnswerOptions")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("Domain.Entities.Course", b =>
                 {
                     b.HasOne("Domain.Entities.Instructor", "Instructor")
-                        .WithOne("Course")
-                        .HasForeignKey("Domain.Entities.Course", "InstructorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Course")
+                        .HasForeignKey("InstructorId");
 
                     b.Navigation("Instructor");
                 });
@@ -580,6 +609,11 @@ namespace Presistence.Migrations
             modelBuilder.Entity("Domain.Entities.Instructor", b =>
                 {
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Question", b =>
+                {
+                    b.Navigation("AnswerOptions");
                 });
 
             modelBuilder.Entity("Domain.Entities.Student", b =>

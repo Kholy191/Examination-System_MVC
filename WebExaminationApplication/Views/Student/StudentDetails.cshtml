@@ -1,0 +1,49 @@
+﻿@model Shared.Dtos.Student.StudentDetailsDto
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center">👨‍🎓 Student Details</h2>
+
+    <div class="card shadow-sm p-4">
+        <div class="row mb-3">
+            <div class="col-md-3 font-weight-bold">Full Name:</div>
+            <div class="col-md-9">@Model.FirstName @Model.LastName</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-3 font-weight-bold">Email:</div>
+            <div class="col-md-9">@Model.Email</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-3 font-weight-bold">Phone:</div>
+            <div class="col-md-9">@Model.PhoneNumber</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-3 font-weight-bold">Courses:</div>
+            <div class="col-md-9">
+                @if (Model.Courses.Any())
+                {
+                    <ul>
+                        @foreach (var course in Model.Courses)
+                        {
+                            <li>@course</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span class="text-muted">No courses assigned.</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-action="Index" class="btn btn-secondary">⬅ Back to List</a>
+    </div>
+</div>

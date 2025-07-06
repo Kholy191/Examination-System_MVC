@@ -15,7 +15,7 @@ namespace Domain.Entities
         public string PhoneNumber { get; set; }
 
         #region Course Relationship
-        public Course? Course { get; set; } // Assuming an instructor teaches one course
+        public ICollection<Course>? Course { get; set; } = new HashSet<Course>();// Assuming an instructor teaches one course
         #endregion
 
         #region User RelationShip

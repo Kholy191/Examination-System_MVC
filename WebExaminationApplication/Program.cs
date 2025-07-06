@@ -1,13 +1,19 @@
+using Domain.Contracts;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
+using Presistence.UnitofWork;
+using Services;
+using Services.CoreServices;
+using ServicesAbstraction;
+using ServicesAbstraction.CoreServices;
 
 namespace WebExaminationApplication
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +25,26 @@ namespace WebExaminationApplication
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            #region Services
+
+            builder.Services.AddScoped<IUnitofWork, UnitofWork>();
+            builder.Services.AddScoped<IManagerService, ManagerService>();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<IDataSeeding, DataSeeding>();
+            builder.Services.AddScoped<IAnswerOptionService, AnswerOptionService>();
+            builder.Services.AddScoped<IQuestionServices, QuestionServices>();
+            builder.Services.AddScoped<ICourseServices, CourseServices>();
+            builder.Services.AddScoped<IInstructorServices, InstructorServices>();
+            builder.Services.AddScoped<IStudentServices, StudentServices>();
+
+            #endregion
+
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Authentication/SignIn";
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -29,16 +55,25 @@ namespace WebExaminationApplication
                 app.UseHsts();
             }
 
+            #region Data Seeding Configuration
+            using (var Scope = app.Services.CreateScope())
+            {
+                var dataSeeding = Scope.ServiceProvider.GetRequiredService<IDataSeeding>();
+                await dataSeeding.SeedIdentityDataAsync();
+            }
+            #endregion
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
+            
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Authentication}/{action=SignIn}/{id?}");
 
             app.Run();
         }

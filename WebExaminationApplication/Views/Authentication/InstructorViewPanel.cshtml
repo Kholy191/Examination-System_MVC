@@ -1,0 +1,16 @@
+﻿@model string 
+
+@{
+    ViewData["Title"] = "Instructor Dashboard";
+}
+
+<div class="container py-5">
+    <div class="text-center">
+        <h2>👋 Welcome, @User.Identity.Name!</h2>
+        <p class="lead mt-3">Glad to have you here. You can view and manage your courses below.</p>
+
+        <a asp-controller="Instructor" asp-action="MyCourses" class="btn btn-primary btn-lg mt-4">
+            📘 My Courses
+        </a>
+    </div>
+</div>

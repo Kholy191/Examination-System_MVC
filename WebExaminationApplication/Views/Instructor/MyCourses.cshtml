@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Shared.Dtos.Course.CourseDto>
+
+@{
+    ViewData["Title"] = "My Courses";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center">📘 My Courses</h2>
+
+    @if (Model.Any())
+    {
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Credits</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model)
+                {
+                    <tr>
+                        <td>@course.Title</td>
+                        <td>@course.Description</td>
+                        <td>@course.Credits</td>
+                        <td>
+                            <a href="/Exam/Create/@course.Id" class="btn btn-sm btn-success mb-1">📝 Manage Exam</a><br />
+                            <a href="/Course/CoursewithStudents/@course.Id" class="btn btn-sm btn-primary mb-1">👥 View Students</a><br />
+                            <a href="/Grades/Course/@course.Id" class="btn btn-sm btn-info">📊 Exam Grades</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center">
+            You have no assigned courses yet.
+        </div>
+    }
+</div>

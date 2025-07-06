@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center">🎓Admin Panel</h2>
+
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">📚 Courses</h5>
+                    <p class="card-text display-6">12</p> \
+                    <a href="/Course/Index" class="btn btn-primary btn-sm">Manage Courses</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">👨‍🏫 Instructors</h5>
+                    <p class="card-text display-6">5</p>
+                    <a href="/Instructor/Index" class="btn btn-warning btn-sm">Manage Instructors</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">👨‍🎓 Students</h5>
+                    <p class="card-text display-6">38</p>
+                    <a href="/Student/Index" class="btn btn-success btn-sm">Manage Students</a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="/Course/Create" class="btn btn-outline-dark me-2">➕ Add Course</a>
+            <a href="/Authentication/Users" class="btn btn-outline-secondary">👥 User Managment</a>
+            <a href="/Authentication/Register" class="btn btn-outline-primary ms-2">Add New User</a>
+        </div>
+    </div>
+</div>

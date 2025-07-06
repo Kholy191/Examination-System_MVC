@@ -1,0 +1,58 @@
+﻿@model Shared.Dtos.Course.CoursewithStudentsDto
+
+@{
+    ViewData["Title"] = "Course Students";
+}
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">👥 Students in "@Model.Title"</h2>
+
+    <div class="mb-4">
+        <h5>📘 Course Info</h5>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Title:</strong> @Model.Title</li>
+            <li class="list-group-item"><strong>Description:</strong> @Model.Description</li>
+            <li class="list-group-item"><strong>Credits:</strong> @Model.Credits</li>
+            <li class="list-group-item"><strong>Student Count:</strong> @Model.StudentCount</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h5>👨‍🎓 Enrolled Students</h5>
+
+        @if (Model.Students.Any())
+        {
+            <table class="table table-bordered table-striped text-center mt-3">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Students.Select((s, i) => new { Student = s, Index = i + 1 }))
+                    {
+                        <tr>
+                            <td>@student.Index</td>
+                            <td>@student.Student.FirstName @student.Student.LastName</td>
+                            <td>@student.Student.Email</td>
+                            <td>@student.Student.PhoneNumber</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center mt-3">
+                No students enrolled in this course yet.
+            </div>
+        }
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-action="MyCourses" asp-controller="Instructor" class="btn btn-secondary">⬅ Back to My Courses</a>
+    </div>
+</div>
