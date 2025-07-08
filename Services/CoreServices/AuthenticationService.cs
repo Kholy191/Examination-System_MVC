@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using ServicesAbstraction;
 using ServicesAbstraction.CoreServices;
@@ -72,7 +67,6 @@ namespace Services.CoreServices
                     }
                     return null;
                 }
-
                 else
                 {
                     var errors = string.Join(" | ", Result.Errors.Select(e => e.Description));
@@ -94,10 +88,9 @@ namespace Services.CoreServices
             if (User != null)
             {
                 var Flag = await userManager.CheckPasswordAsync(User, _user.Password);
-
                 if (Flag)
                 {
-                    await _signInManager.SignInAsync(User, false);
+                    await _signInManager.SignInAsync(User, true);
                     return null!;
                 }
                 else
@@ -119,7 +112,5 @@ namespace Services.CoreServices
                 UserId = User.Id
             };
         }
-
-
     }
 }

@@ -1,0 +1,64 @@
+﻿@model Shared.Dtos.Exam.ExamDto
+
+@{
+    ViewData["Title"] = "Exam Details";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center">📘 Exam Details</h2>
+
+    <div class="mb-4">
+        <h5>Exam Info</h5>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Title:</strong> @Model.Title</li>
+            <li class="list-group-item"><strong>Date:</strong> @Model.ExamDate.ToString("yyyy-MM-dd HH:mm")</li>
+            <li class="list-group-item"><strong>Duration:</strong> @Model.DurationInMinutes minutes</li>
+            <li class="list-group-item"><strong>Course ID:</strong> @Model.CourseId</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h5>📝 Questions</h5>
+
+        @if (Model.questionDtos != null && Model.questionDtos.Any())
+        {
+            <table class="table table-bordered table-striped text-center mt-3">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Question</th>
+                        <th>Marks</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var q in Model.questionDtos.Select((q, i) => new { Question = q, Index = i + 1 }))
+                    {
+                        <tr>
+                            <td>@q.Index</td>
+                            <td>@q.Question.Text</td>
+                            <td>@q.Question.Marks</td>
+                            <td>
+                                <a href="/Answer/QuestionAnswers/@q.Question.Id" class="btn btn-sm btn-info">
+                                    👁️ Show Answers
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info text-center">
+                No questions added yet.
+            </div>
+        }
+
+        <div class="text-center mt-4">
+            <a href="/Question/Create/@Model.Id" class="btn btn-success">
+                ➕ Add Question
+            </a>
+        </div>
+    </div>
+</div>

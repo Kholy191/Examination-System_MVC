@@ -9,6 +9,7 @@ namespace ServicesAbstraction.CoreServices
 {
     public interface IExamServices
     {
-        public Task CreateAsync(ExamDto examDto);
+        public Task<int> CreateAsync(ExamDto examDto);
+        public Task<ExamDto> GetDetailsAsync(int Id);
     }
 }

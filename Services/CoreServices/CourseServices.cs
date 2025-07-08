@@ -9,7 +9,9 @@ using Services.Specification_Implementation;
 using Services.Specifications;
 using ServicesAbstraction.CoreServices;
 using Shared.Dtos.Course;
+using Shared.Dtos.Exam;
 using Shared.Dtos.Student;
+using WebExaminationApplication.Controllers.Course;
 
 namespace Services.CoreServices
 {
@@ -102,6 +104,26 @@ namespace Services.CoreServices
             CoursewithStudents.StudentCount = CoursewithStudents.Students.Count();
             return CoursewithStudents;
         }
-
+        public async Task<CourseWithExamDto> GetCourseExams(int id)
+        {
+            var Repo = _unitofWork.GetRepository<Course, int>();
+            var specifications = new CoursewithExamSpecification(id);
+            var Course = await Repo.GetBySpecificationAsync(id, specifications);
+            var Result = new CourseWithExamDto() 
+            {
+                Id = Course.Id,
+                Title = Course.Title,
+                Description = Course.Description,
+                Credits = Course.Credits,
+                Exams = Course.Exams?.Select(x => new ExamIndexDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    DurationInMinutes = x.DurationInMinutes,
+                    ExamDate = x.ExamDate,
+                }) ?? new List<ExamIndexDto>(),
+            };
+            return Result;
+        }
     }
 }

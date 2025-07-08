@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shared.Dtos.Course;
+using Shared.Dtos.Exam;
+using WebExaminationApplication.Controllers.Course;
 
 namespace ServicesAbstraction.CoreServices
 {
@@ -15,5 +17,6 @@ namespace ServicesAbstraction.CoreServices
         public Task UpdateCourseAsync(CourseDetailsDto _course);
         public Task DeleteCourseAsync(int id);
         public Task<CoursewithStudentsDto> GetCourseStudents(int id);
+        public Task<CourseWithExamDto> GetCourseExams(int id);
     }
 }

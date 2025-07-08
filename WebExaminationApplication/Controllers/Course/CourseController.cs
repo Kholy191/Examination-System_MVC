@@ -119,5 +119,15 @@ namespace WebExaminationApplication.Controllers.Course
         }
         #endregion
 
+        #region Course and its Exams
+        [HttpGet]
+        [Authorize(Roles = "Instructor")]
+        public async Task<IActionResult> CoursewithExams(int Id)
+        {
+            var CoursesExamsDto = await services.CourseServices.GetCourseExams(Id);
+            return View(CoursesExamsDto);
+        }
+        #endregion
+
     }
 }

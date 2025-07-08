@@ -33,8 +33,6 @@ namespace Presistence.Repositories
             return await dbContext.Set<T>().ToListAsync();
         }
 
-       
-
         public async Task<T> GetByIdAsync(TKey id)
         {
             var entity = await dbContext.Set<T>().FirstOrDefaultAsync(e => e.Id.Equals(id));

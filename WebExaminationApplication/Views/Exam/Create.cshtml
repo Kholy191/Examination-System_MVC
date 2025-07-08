@@ -1,0 +1,44 @@
+﻿@using WebExaminationApplication.ViewModels.Exam
+@model CreateExamViewModel
+
+@{
+    ViewData["Title"] = "Create Exam";
+    var X = Model.CourseId;
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center">➕ Create New Exam</h2>
+
+    <form asp-action="Create" method="post">
+        @Html.HiddenFor(model => model.CourseId)
+
+        <div class="form-group mb-3">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="ExamDate">Exam Date</label>
+            <input asp-for="ExamDate" type="datetime-local" class="form-control" />
+            <span asp-validation-for="ExamDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-4">
+            <label asp-for="DurationInMinutes">Duration (minutes)</label>
+            <input asp-for="DurationInMinutes" type="number" class="form-control" />
+            <span asp-validation-for="DurationInMinutes" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">✅ Submit Exam</button>
+            <a asp-action="Exams" asp-controller="Course" asp-route-id="@Model.CourseId" class="btn btn-secondary ms-2">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

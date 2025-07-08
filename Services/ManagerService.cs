@@ -19,8 +19,8 @@ namespace Services
         Lazy<IInstructorServices> _instructorServices = new Lazy<IInstructorServices>(() => new InstructorServices(_unitofwork));
         Lazy<IStudentExamServices> _studentExamServices = new Lazy<IStudentExamServices>(() => new StudentExamServices());
         Lazy<IExamServices> _examServices = new Lazy<IExamServices>(() => new ExamServices(_unitofwork));
-        Lazy<IQuestionServices> _questionServices = new Lazy<IQuestionServices>(() => new QuestionServices(_unitofwork));
         Lazy<IStudentServices> _studentServices = new Lazy<IStudentServices>(() => new StudentServices(_unitofwork));
+        Lazy<IAnswerOptionService> _answerOptionServices = new Lazy<IAnswerOptionService>(() => new AnswerOptionService(_unitofwork));
         #endregion
 
         #region Services
@@ -28,8 +28,8 @@ namespace Services
         public IInstructorServices InstructorServices => _instructorServices.Value;
         public IStudentExamServices StudentExamServices => _studentExamServices.Value;
         public IExamServices ExamServices => _examServices.Value;
-        public IQuestionServices questionServices => _questionServices.Value;
         public IStudentServices StudentServices => _studentServices.Value;
+        public IAnswerOptionService AnswerOptionServices => _answerOptionServices.Value;
         #endregion
     }
 }

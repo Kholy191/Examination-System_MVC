@@ -13,7 +13,7 @@ namespace ServicesAbstraction
         public IInstructorServices InstructorServices { get; }
         public IStudentExamServices StudentExamServices { get; }
         public IExamServices ExamServices { get; }
-        public IQuestionServices questionServices { get; }
         public IStudentServices StudentServices { get; }
+
     }
 }
